@@ -15,7 +15,7 @@ int main(int argc, char **argv ) {
 	
 	puts("Generation:\t1");
 	Conway->Print(Conway);
-	for (int i = 2; i <= generations; i++) {
+	for (int i = 2; i <= generations || generations == 0; i++) {
 		Conway->Evolve(Conway);
 		printf("\n\nGeneration:\t%d\n", i);
 		Conway->Print(Conway);

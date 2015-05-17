@@ -4,7 +4,7 @@
 #define ON 'O'
 #define OFF '.'
 
-#define MAXX 100
+#define MAXX 300
 #define MAXY 100
 
 typedef struct field {

@@ -59,9 +59,16 @@ Field * Clone(Field *self) {
 	return clone;
 }
 
+
+
 bool WillLive(Field *self, int x, int y) {
+	int neighbors = GetNeighbors(self, x, y);
+
+	if (neighbors == 0) {
+		return false;
+	}
 	if (self->grid[y][x] == false) {
-		if (GetNeighbors(self, x, y) == 3) {
+		if (neighbors == 3) {
 			return true;
 		}
 		else {
@@ -69,7 +76,7 @@ bool WillLive(Field *self, int x, int y) {
 		}
 	}
 	else {
-		switch(GetNeighbors(self, x, y)) {
+		switch(neighbors) {
 			case 0 ... 1: return false;
 			case 2 ... 3: return true;
 			case 4 ... 8: return false;
@@ -125,10 +132,6 @@ void SetGrid(Field *self, char *rows) {
 	}
 }
 
-void ClearScreen(void) {
-	const char * CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
-	write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
-}
 static int GetNeighbors(Field *self, int x, int y) {
 		int ct = 0;
 		
