@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 static int GetNeighbors(Field *gol, int x, int y);
 
@@ -11,6 +12,7 @@ Field * NewField(void) {
 	new->x = 0;
 	new->y = 0;
 
+	new->Read = ReadFile;
 	new->Print = Print;
 	new->Evolve = Evolve;
 	new->SetGrid = SetGrid;
@@ -18,6 +20,29 @@ Field * NewField(void) {
 	new->Clone = Clone;
 
 	return new;
+}
+
+void ReadFile(Field *self, FILE *fp) {
+	char ch;
+	char grid[MAXX * MAXY + MAXY];
+	int xsize = 0;
+	int ysize = 0;
+	int i = 0;
+
+	while ((ch = fgetc(fp)) != EOF) {
+		if (ch == '\n') {
+			ysize++;
+		}
+		else {
+			xsize++;
+		}
+		grid[i++] = ch;
+	}
+	xsize = xsize / ysize;
+	grid[i] = '\0';
+
+	self->SetSize(self, xsize, ysize);
+	self->SetGrid(self, grid);
 }
 
 Field * Clone(Field *self) {
@@ -67,10 +92,10 @@ void Print(Field *self) {
 	for (int i = 0; i < self->y; i++) {
 		for (int j = 0; j < self->x; j++) {
 			if (self->grid[i][j] == true) {
-				putchar('X');
+				printf("█");
 			}
 			else if (self->grid[i][j] == false) {
-				putchar('-');
+				printf("░");
 			}
 		}
 		putchar('\n');
@@ -91,20 +116,19 @@ void SetGrid(Field *self, char *rows) {
 	for (int y = 0; y < self->y; y++) {
 		for (int x = 0; x < self->x; x++) {
 			switch(rows[i++]) {
-				case 'x': self->grid[y][x] = true; break;
-				case '-': self->grid[y][x] = false; break;
-				case '\n': x--;
+				case ON: self->grid[y][x] = true; break;
+				case OFF: self->grid[y][x] = false; break;
+				case '\n': x--; break;
+				case '\0': return;
 			}
 		}
 	}
 }
 
-
-void Show(Field *self) {
-	printf("->x: %d\n->y: %d\n", self->x, self->y);
+void ClearScreen(void) {
+	const char * CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
+	write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
 }
-
-
 static int GetNeighbors(Field *self, int x, int y) {
 		int ct = 0;
 		

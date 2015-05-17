@@ -1,4 +1,11 @@
 #include <stdbool.h>
+#include <stdio.h>
+
+#define ON 'O'
+#define OFF '.'
+
+#define MAXX 100
+#define MAXY 100
 
 typedef struct field {
 	bool **grid;
@@ -6,12 +13,14 @@ typedef struct field {
 	int y;
 
 	struct field *(*Clone)(struct field *);
+	void (*Read)(struct field *, FILE *);
 	void (*Evolve)(struct field *);
 	void (*Print)(struct field *);
 	void (*SetSize)(struct field *, int, int);
 	void (*SetGrid)(struct field *, char *grid);
 } Field;
 
+void ClearScreen(void);
 
 /* initialize a field for Conway's GoL */
 Field * NewField(void);
@@ -31,4 +40,4 @@ void SetSize(struct field *, int, int);
 
 void SetGrid(struct field *, char *grid);
 
-void Show(Field *);
+void ReadFile(struct field *, FILE *fp);
