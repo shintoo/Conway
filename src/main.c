@@ -5,8 +5,11 @@
 #include <string.h>
 #include <limits.h>
 
+#define COLORS
 
 #include "life.h"
+
+#define COLORSPEED 12
 
 int main(int argc, char **argv ) {
 	if (argc < 4) {
@@ -44,16 +47,19 @@ int main(int argc, char **argv ) {
 		fprintf(stderr, "%s not found.\n", argv[3]);
 		exit(EXIT_FAILURE);
 	}
-	
+#ifdef COLORSPEED
 	puts(RED);
+#endif
 	puts("Generation:\t1");
 	Conway->Print(Conway);
 	unsigned long i = 2;
 	for (; i <= generations || (generations == 0 && i < ULONG_MAX) ; i++) {
 		Conway->Evolve(Conway);
-		if (i % 6 == 0) {
+#ifdef COLORSPEED
+		if (i % COLORSPEED == 0) {
 			puts(colors[i % 5]);
 		}
+#endif
 		printf("\n\nGeneration:\t%lu\nLive: %lu\t%.3g%%\n",
 		       i, Conway->LiveCount(Conway),
 		       ((float)Conway->LiveCount(Conway)) /
