@@ -8,7 +8,7 @@ From a text file:
 ```
 ./Life <generations> <speed 1-10> <text file>
 ```   
-Randomly generatied:
+Randomly generated:
 ```
 ./Life <generations> <speed 1-10> random <X,Y>
 ```
