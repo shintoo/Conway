@@ -44,17 +44,19 @@ int main(int argc, char **argv ) {
 		fprintf(stderr, "%s not found.\n", argv[3]);
 		exit(EXIT_FAILURE);
 	}
-
+	
+	puts(RED);
 	puts("Generation:\t1");
-	Conway->Print(Conway, RED);
+	Conway->Print(Conway);
 	unsigned long i = 2;
 	for (; i <= generations || (generations == 0 && i < ULONG_MAX) ; i++) {
 		Conway->Evolve(Conway);
+		puts(colors[i % 5]);
 		printf("\n\nGeneration:\t%lu\nLive: %lu\t%.3g%%\n",
 		       i, Conway->LiveCount(Conway),
 		       ((float)Conway->LiveCount(Conway)) /
 		       ((float) Conway->Total(Conway)) * 100);
-		Conway->Print(Conway, colors[i % 5]);
+		Conway->Print(Conway);
 		nanosleep(&req, &rem);
 	}
 	return 0;

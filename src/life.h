@@ -29,7 +29,7 @@ typedef struct field {
 	void (*Random)(struct field *, char *, int);
 
 	void (*Evolve)(struct field *);
-	void (*Print)(struct field *, char *color);
+	void (*Print)(struct field *);
 	
 	unsigned long (*LiveCount)(struct field *);
 	unsigned long (*Total)(struct field *);
@@ -47,7 +47,7 @@ Field * NewField(void);
 bool WillLive(Field *self, int x, int y);
 
 /* print the grid */
-void Print(Field *self, char *color);
+void Print(Field *self);
 
 /* refresh grid to next generation */
 void Evolve(Field *self);
