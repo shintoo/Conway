@@ -123,8 +123,6 @@ Field * Clone(Field *self) {
 	return clone;
 }
 
-
-
 bool WillLive(Field *self, int x, int y) {
 	int neighbors = GetNeighbors(self, x, y);
 
@@ -163,14 +161,14 @@ void Evolve(Field *self) {
 	}
 }
 
-void Print(Field *self) {	
+void Print(Field *self, char *color) {	
 	for (int i = 0; i < self->sizey; i++) {
 		for (int j = 0; j < self->sizex; j++) {
 			if (self->grid[i][j] == true) {
-				printf("█");
+				printf("%s█", color);
 			}
 			else if (self->grid[i][j] == false) {
-				printf("░");
+				printf("%s░", color);
 			}
 		}
 		putchar('\n');

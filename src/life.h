@@ -9,6 +9,13 @@
 #define MAXX 300
 #define MAXY 100
 
+#define RED     "\x1b[31m"
+#define GREEN   "\x1b[32m"
+#define YELLOW  "\x1b[33m"
+#define BLUE    "\x1b[34m"
+#define MAGENTA "\x1b[35m"
+#define CYAN    "\x1b[36m"
+#define RESET   "\x1b[0m"
 
 typedef struct field {
 	bool **grid;
@@ -22,7 +29,7 @@ typedef struct field {
 	void (*Random)(struct field *, char *, int);
 
 	void (*Evolve)(struct field *);
-	void (*Print)(struct field *);
+	void (*Print)(struct field *, char *color);
 	
 	unsigned long (*LiveCount)(struct field *);
 	unsigned long (*Total)(struct field *);
@@ -40,7 +47,7 @@ Field * NewField(void);
 bool WillLive(Field *self, int x, int y);
 
 /* print the grid */
-void Print(Field *self);
+void Print(Field *self, char *color);
 
 /* refresh grid to next generation */
 void Evolve(Field *self);

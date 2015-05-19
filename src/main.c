@@ -5,6 +5,7 @@
 #include <string.h>
 #include <limits.h>
 
+
 #include "life.h"
 
 int main(int argc, char **argv ) {
@@ -14,7 +15,7 @@ int main(int argc, char **argv ) {
 		       argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	
+	char *colors[5] = {RED, YELLOW, GREEN, MAGENTA, CYAN};
 	long generations = strtoul(argv[1], NULL, 0);
 	
 	int speed = atoi(argv[2]);
@@ -45,7 +46,7 @@ int main(int argc, char **argv ) {
 	}
 
 	puts("Generation:\t1");
-	Conway->Print(Conway);
+	Conway->Print(Conway, RED);
 	unsigned long i = 2;
 	for (; i <= generations || (generations == 0 && i < ULONG_MAX) ; i++) {
 		Conway->Evolve(Conway);
@@ -53,7 +54,7 @@ int main(int argc, char **argv ) {
 		       i, Conway->LiveCount(Conway),
 		       ((float)Conway->LiveCount(Conway)) /
 		       ((float) Conway->Total(Conway)) * 100);
-		Conway->Print(Conway);
+		Conway->Print(Conway, colors[i % 5]);
 		nanosleep(&req, &rem);
 	}
 	return 0;
