@@ -1,8 +1,7 @@
 CC=gcc
 CFLAGS= -std=gnu11
-SRC= main.c life.c
-HDR = life.h
-OBJ= main.o life.o
+SRC= src/main.c src/life.c
+HDR = src/life.h
 
 all: $(SRC) $(HDR)
-	$(CC) -o Life $(SRC) $(CFLAGS)
+	$(CC) -o Conway $(SRC) $(CFLAGS)
