@@ -51,7 +51,9 @@ int main(int argc, char **argv ) {
 	unsigned long i = 2;
 	for (; i <= generations || (generations == 0 && i < ULONG_MAX) ; i++) {
 		Conway->Evolve(Conway);
-		puts(colors[i % 5]);
+		if (i % 6 == 0) {
+			puts(colors[i % 5]);
+		}
 		printf("\n\nGeneration:\t%lu\nLive: %lu\t%.3g%%\n",
 		       i, Conway->LiveCount(Conway),
 		       ((float)Conway->LiveCount(Conway)) /
