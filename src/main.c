@@ -10,7 +10,7 @@
 int main(int argc, char **argv ) {
 	if (argc < 4) {
 		printf("usage: %s <generations> <speed> <<text file> |"
-		       " <random X,Y <density 1-10>>>\n",
+		       " <random X,Y>>\n",
 		       argv[0]);
 		exit(EXIT_FAILURE);
 	}
@@ -34,7 +34,7 @@ int main(int argc, char **argv ) {
 
 	Field *Conway = NewField();
 	if ((strncmp(argv[3], "random", 6)) == 0) {
-		Conway->Random(Conway, argv[4], atoi(argv[5]));
+		Conway->Random(Conway, argv[4], 10);
 	}
 	else if ((in = fopen(argv[3], "r")) != NULL) {
 		Conway->Read(Conway, in);
