@@ -12,7 +12,7 @@
                         * Comment it out to remove color.
                         */
 
-#define LOG 20         /* Stops the game when the field reaches a static
+#define LOG 200         /* Stops the game when the field reaches a static
                         * state, writes how many generations it took to reach
                         * in a logfile called log.txt. The amount of games
                         * played and logged is specfied by this constant.
@@ -33,8 +33,8 @@
                         * field to be static.
                         */
 
-#define BACKGROUND     /* When active, this prevents the games from being
-                        * printed, so the program only runs and logs the
+//#define BACKGROUND     /* When active, this prevents the games from being
+/*                        * printed, so the program only runs and logs the
                         * results. Much faster than printing them.
                         */
 
@@ -76,7 +76,7 @@ int main(int argc, char **argv ) {
 while (iterations < LOG) {
 #endif
 	if ((strncmp(argv[3], "random", 6)) == 0) {
-		Conway->Random(Conway, argv[4], atoi(argv[5]));
+		Conway->Random(Conway, argv[4], 10);
 	}
 	else if ((in = fopen(argv[3], "r")) != NULL) {
 		Conway->Read(Conway, in);
