@@ -4,12 +4,19 @@
 #include <time.h>
 #include <string.h>
 #include <limits.h>
-
-#define COLORS
-
+#include <unistd.h>
 #include "life.h"
+                      
+#define COLORSPEED 14 /* The higher this is, the slower the color changes.
+                       * Comment it out to remove color.
+                       */
 
-#define COLORSPEED 14
+#define LOG 20        /* Stops the game when the field reaches a static
+                       * state, writes how many generations it took to reach
+                       * in a logfile called log.txt. The amount of games
+                       * played and logged is specfied by this constant.
+                       * Comment out to neithor log nor stop the inital game.
+                       */
 
 int main(int argc, char **argv ) {
 	if (argc < 4) {
@@ -18,6 +25,7 @@ int main(int argc, char **argv ) {
 		       argv[0]);
 		exit(EXIT_FAILURE);
 	}
+
 	char *colors[5] = {RED, YELLOW, GREEN, MAGENTA, CYAN};
 	long generations = strtoul(argv[1], NULL, 0);
 	
@@ -35,11 +43,17 @@ int main(int argc, char **argv ) {
 
 	bool random;
 	FILE *in;
-
+#ifdef LOG
+	FILE *logfile = fopen("log.txt", "w");
+	int iterations = 0;
+#endif
 	unsigned long prevliv;
 	int samecount = 0;
 
 	Field *Conway = NewField();
+#ifdef LOG
+while (iterations < LOG) {
+#endif
 	if ((strncmp(argv[3], "random", 6)) == 0) {
 		Conway->Random(Conway, argv[4], atoi(argv[5]));
 	}
@@ -58,6 +72,7 @@ int main(int argc, char **argv ) {
 	unsigned long i = 2;
 	for (; i <= generations || (generations == 0 && i < ULONG_MAX) ; i++) {
 		Conway->Evolve(Conway);
+#ifdef LOG
 		if (Conway->LiveCount(Conway) == prevliv) {
 			samecount++;
 			if (samecount == 20) {
@@ -67,6 +82,7 @@ int main(int argc, char **argv ) {
 		else {
 			samecount = 0;
 		}
+#endif
 #ifdef COLORSPEED
 		if (i % COLORSPEED == 0) {
 			puts(colors[i % 5]);
@@ -80,7 +96,13 @@ int main(int argc, char **argv ) {
 		prevliv = Conway->LiveCount(Conway);
 		nanosleep(&req, &rem);
 	}
-	printf("Static field achieved by generation %lu.\n", i - samecount);
+#ifdef LOG
+	fprintf(logfile, "%3d %lu\n", iterations, i - samecount);
+	sleep(1);
+	iterations++;
+}	
+	fclose(logfile);
+#endif
 	return 0;
 }
 
