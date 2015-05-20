@@ -6,11 +6,15 @@ Implementation of the popular hit, "Conway's Game of Life"!
 ##Usage
 From a text file: 
 ```
-./Conway <generations> <speed 1-10> <text file>
+./Conway <generations> <speed 1-10> <text file>  
+## Example:  
+./Conway 200 9 ex/galaxy.txt
 ```   
 Randomly generated:
 ```
-./Conway <generations> <speed 1-10> random <X,Y>
+./Conway <generations> <speed 1-10> random <X,Y>  
+## Example:  
+./Conway 0 10 random 30,15
 ```
 If generations is 0, it will run until killed externally.
 
