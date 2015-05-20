@@ -15,10 +15,10 @@ Randomly generated:
 If generations is 0, it will run until killed externally.
 
 ####From a text file
-![galaxy image][img/galaxy.png]
+![galaxy image](img/galaxy.png)
 
 ####Using a log
-![log image][img/log.png]
+![log image](img/log.png)
 
 ###Notes
 
