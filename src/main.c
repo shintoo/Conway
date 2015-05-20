@@ -36,9 +36,12 @@ int main(int argc, char **argv ) {
 	bool random;
 	FILE *in;
 
+	unsigned long prevliv;
+	int samecount = 0;
+
 	Field *Conway = NewField();
 	if ((strncmp(argv[3], "random", 6)) == 0) {
-		Conway->Random(Conway, argv[4], 10);
+		Conway->Random(Conway, argv[4], atoi(argv[5]));
 	}
 	else if ((in = fopen(argv[3], "r")) != NULL) {
 		Conway->Read(Conway, in);
@@ -55,6 +58,15 @@ int main(int argc, char **argv ) {
 	unsigned long i = 2;
 	for (; i <= generations || (generations == 0 && i < ULONG_MAX) ; i++) {
 		Conway->Evolve(Conway);
+		if (Conway->LiveCount(Conway) == prevliv) {
+			samecount++;
+			if (samecount == 20) {
+				break;
+			}
+		}
+		else {
+			samecount = 0;
+		}
 #ifdef COLORSPEED
 		if (i % COLORSPEED == 0) {
 			puts(colors[i % 5]);
@@ -65,8 +77,10 @@ int main(int argc, char **argv ) {
 		       ((float)Conway->LiveCount(Conway)) /
 		       ((float) Conway->Total(Conway)) * 100);
 		Conway->Print(Conway);
+		prevliv = Conway->LiveCount(Conway);
 		nanosleep(&req, &rem);
 	}
+	printf("Static field achieved by generation %lu.\n", i - samecount);
 	return 0;
 }
 
