@@ -205,40 +205,6 @@ void SetGrid(Field *self, char *rows) {
 		}
 	}
 }
-/*
-int GetNeighbors(Field *self, int x, int y) {
-		int ct = 0;
-
-		if (self->grid[y][x - 1] == true) {
-			ct++; 
-		} 
-		if (self->grid[y][x + 1] == true) {
-			ct++;                                       
-		}
-		if (self->grid[y + 1][x] == true) {
-			ct++;
-		}
-		
-		if (self->grid[y - 1][x] == true) {
-			ct++;
-		}
-
-		if (self->grid[y + 1][x + 1] == true) {
-			ct++;
-		}
-		if (self->grid[y + 1][x - 1] == true) {
-			ct++;
-		}
-		if (self->grid[y - 1][x - 1] == true) {
-			ct++;
-		}
-		if (self->grid[y - 1][x + 1] == true) {
-			ct++;
-		}
-
-		return ct;
-}
-*/
 
 int GetNeighbors(Field *self, int x, int y) {
 		int ct = 0;
