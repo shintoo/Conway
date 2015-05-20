@@ -3,20 +3,33 @@
 #include <stdbool.h>
 #include <time.h>
 #include <string.h>
+#include <math.h>
 #include <limits.h>
 #include <unistd.h>
 #include "life.h"
                       
-#define COLORSPEED 14 /* The higher this is, the slower the color changes.
-                       * Comment it out to remove color.
-                       */
+#define COLORSPEED 14  /* The higher this is, the slower the color changes.
+                        * Comment it out to remove color.
+                        */
 
-#define LOG 20        /* Stops the game when the field reaches a static
-                       * state, writes how many generations it took to reach
-                       * in a logfile called log.txt. The amount of games
-                       * played and logged is specfied by this constant.
-                       * Comment out to neithor log nor stop the inital game.
-                       */
+#define LOG 20         /* Stops the game when the field reaches a static
+                        * state, writes how many generations it took to reach
+                        * in a logfile called log.txt. The amount of games
+                        * played and logged is specfied by this constant.
+                        * Comment out to neithor log nor stop the inital game.
+                        */
+
+#define LOGACCURACY 80 /* The higher this is, the more generations are tested
+                        * to determine a static field. Slower, but more
+                        * accurate. Gliders have been seen at end frames
+                        * for values under 80.
+                        */
+
+#define LOGFEATHER 4   /* Blinkers may cause a game to never stop. This
+                        * constant allows for changes in life within a
+                        * certain range while still considering the
+                        * field to be static.
+                        */
 
 int main(int argc, char **argv ) {
 	if (argc < 4) {
@@ -73,9 +86,9 @@ while (iterations < LOG) {
 	for (; i <= generations || (generations == 0 && i < ULONG_MAX) ; i++) {
 		Conway->Evolve(Conway);
 #ifdef LOG
-		if (Conway->LiveCount(Conway) == prevliv) {
+		if (abs(Conway->LiveCount(Conway) - prevliv) < LOGFEATHER + 1) {
 			samecount++;
-			if (samecount == 20) {
+			if (samecount == LOGACCURACY) {
 				break;
 			}
 		}
