@@ -124,7 +124,7 @@ while (iterations < LOG) {
 
 #ifndef BACKGROUND
 #ifdef LOG
-		printf("\n\nGame: 24\n");// iterations);
+		printf("\n\nGame: %u\n", iterations);
 #endif
 		printf("Generation:\t%lu\nLive: %lu\t%.3g%%\n",
 		       i, Conway->LiveCount(Conway),
