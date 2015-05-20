@@ -19,7 +19,7 @@
                         * Comment out to neithor log nor stop the inital game.
                         */
 
-#define LOGACCURACY 80 /* The higher this is, the more generations are tested
+#define LOGACCURACY 40 /* The higher this is, the more generations are tested
                         * to determine a static field. Slower, but more
                         * accurate. There is always the possibility of
                         * a glider spawning with nothing but one 2x2 block
@@ -63,18 +63,22 @@ int main(int argc, char **argv ) {
 
 	bool random;
 	FILE *in;
+	unsigned int iterations = 0;
+
 #ifdef LOG
 	FILE *logfile = fopen("log.txt", "w");
-#endif
-	int iterations = 0;
-#ifdef LOG
+	fprintf(logfile, " Game\tGen\n");
 	unsigned long prevliv;
-	int samecount = 0;
+	unsigned long peak = 0;
+	unsigned int samecount = 0;
 #endif
+
 	Field *Conway = NewField();
+
 #ifdef LOG
 while (iterations < LOG) {
 #endif
+
 	if ((strncmp(argv[3], "random", 6)) == 0) {
 		Conway->Random(Conway, argv[4], 10);
 	}
@@ -85,6 +89,7 @@ while (iterations < LOG) {
 		fprintf(stderr, "%s not found.\n", argv[3]);
 		exit(EXIT_FAILURE);
 	}
+
 #ifndef BACKGROUND
 #ifdef COLORSPEED
 	puts(RED);
@@ -92,9 +97,11 @@ while (iterations < LOG) {
 	puts("Generation:\t1");
 	Conway->Print(Conway);
 #endif
+
 	unsigned long i = 2;
 	for (; i <= generations || (generations == 0 && i < ULONG_MAX) ; i++) {
 		Conway->Evolve(Conway);
+
 #ifdef LOG
 		if (abs(Conway->LiveCount(Conway) - prevliv) < LOGFEATHER + 1) {
 			samecount++;
@@ -106,6 +113,7 @@ while (iterations < LOG) {
 			samecount = 0;
 		}
 #endif
+
 #ifndef BACKGROUND
 #ifdef COLORSPEED
 		if (i % COLORSPEED == 0) {
@@ -113,27 +121,41 @@ while (iterations < LOG) {
 		}
 #endif
 #endif
+
 #ifndef BACKGROUND
-		printf("\n\nGame: %d\nGeneration:\t%lu\nLive: %lu\t%.3g%%\n",
-		       iterations, i, Conway->LiveCount(Conway),
+#ifdef LOG
+		printf("\n\nGame: %u\n", iterations);
+#endif
+		printf("Generation:\t%lu\nLive: %lu\t%.3g%%\n",
+		       i, Conway->LiveCount(Conway),
 		       ((float)Conway->LiveCount(Conway)) /
 		       ((float) Conway->Total(Conway)) * 100);
 		Conway->Print(Conway);
 #endif
+
 #ifdef LOG
+		if (Conway->LiveCount(Conway) > peak) {
+			peak = Conway->LiveCount(Conway);
+		}
 		prevliv = Conway->LiveCount(Conway);
 #endif
+
 #ifndef BACKGROUND
 		nanosleep(&req, &rem);
 #endif
+
 	}
+
 #ifdef LOG
-	fprintf(logfile, "%3d %lu\n", iterations, i - samecount);
+	fprintf(logfile, "%4d\t%4lu\n", iterations, i - samecount);
+	fclose(logfile);
+	fopen("log.txt", "a");
 	sleep(1);
 	iterations++;
 #ifdef BACKGROUND
-	printf("%d/%d\n", iterations, LOG);
+	printf("%u/%d\n", iterations, LOG);
 #endif
+
 }
 	fclose(logfile);
 #endif

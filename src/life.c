@@ -164,10 +164,10 @@ void Print(Field *self) {
 	for (int i = 0; i < self->sizey; i++) {
 		for (int j = 0; j < self->sizex; j++) {
 			if (self->grid[i][j] == true) {
-				printf("█");
+				printf("██");
 			}
 			else if (self->grid[i][j] == false) {
-				printf("░");
+				printf("░░");
 			}
 		}
 		putchar('\n');
