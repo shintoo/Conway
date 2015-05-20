@@ -1,0 +1,6 @@
+a.out
+*.o
+*.so
+
+Conway
+log.txt
