@@ -5,4 +5,4 @@ HDR = src/life.h
 LIB= -lm
 
 all: $(SRC) $(HDR)
-	$(CC) -o Conway $(SRC) $(CFLAGS) #(LIB)
+	$(CC) -o Conway $(SRC) $(CFLAGS) $(LIB)

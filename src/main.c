@@ -21,14 +21,21 @@
 
 #define LOGACCURACY 80 /* The higher this is, the more generations are tested
                         * to determine a static field. Slower, but more
-                        * accurate. Gliders have been seen at end frames
-                        * for values under 80.
+                        * accurate. There is always the possibility of
+                        * a glider spawning with nothing but one 2x2 block
+                        * on the field. The larger your field, the higher
+                        * LOGACCURACY recommended.
                         */
 
 #define LOGFEATHER 4   /* Blinkers may cause a game to never stop. This
                         * constant allows for changes in life within a
                         * certain range while still considering the
                         * field to be static.
+                        */
+
+#define BACKGROUND     /* When active, this prevents the games from being
+                        * printed, so the program only runs and logs the
+                        * results. Much faster than printing them.
                         */
 
 int main(int argc, char **argv ) {
@@ -58,11 +65,12 @@ int main(int argc, char **argv ) {
 	FILE *in;
 #ifdef LOG
 	FILE *logfile = fopen("log.txt", "w");
-	int iterations = 0;
 #endif
+	int iterations = 0;
+#ifdef LOG
 	unsigned long prevliv;
 	int samecount = 0;
-
+#endif
 	Field *Conway = NewField();
 #ifdef LOG
 while (iterations < LOG) {
@@ -77,11 +85,13 @@ while (iterations < LOG) {
 		fprintf(stderr, "%s not found.\n", argv[3]);
 		exit(EXIT_FAILURE);
 	}
+#ifndef BACKGROUND
 #ifdef COLORSPEED
 	puts(RED);
 #endif
 	puts("Generation:\t1");
 	Conway->Print(Conway);
+#endif
 	unsigned long i = 2;
 	for (; i <= generations || (generations == 0 && i < ULONG_MAX) ; i++) {
 		Conway->Evolve(Conway);
@@ -96,24 +106,35 @@ while (iterations < LOG) {
 			samecount = 0;
 		}
 #endif
+#ifndef BACKGROUND
 #ifdef COLORSPEED
 		if (i % COLORSPEED == 0) {
 			puts(colors[i % 5]);
 		}
 #endif
-		printf("\n\nGeneration:\t%lu\nLive: %lu\t%.3g%%\n",
-		       i, Conway->LiveCount(Conway),
+#endif
+#ifndef BACKGROUND
+		printf("\n\nGame: %d\nGeneration:\t%lu\nLive: %lu\t%.3g%%\n",
+		       iterations, i, Conway->LiveCount(Conway),
 		       ((float)Conway->LiveCount(Conway)) /
 		       ((float) Conway->Total(Conway)) * 100);
 		Conway->Print(Conway);
+#endif
+#ifdef LOG
 		prevliv = Conway->LiveCount(Conway);
+#endif
+#ifndef BACKGROUND
 		nanosleep(&req, &rem);
+#endif
 	}
 #ifdef LOG
 	fprintf(logfile, "%3d %lu\n", iterations, i - samecount);
 	sleep(1);
 	iterations++;
-}	
+#ifdef BACKGROUND
+	printf("%d/%d\n", iterations, LOG);
+#endif
+}
 	fclose(logfile);
 #endif
 	return 0;

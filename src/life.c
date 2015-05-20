@@ -104,7 +104,6 @@ void Random(Field *self, char *dim, int density) {
 		grid[g++] = '\n';
 	}
 	grid[g] = '\0';
-	printf("xsize: %d ysize: %d", self->sizex, self->sizey);
 	self->SetGrid(self, grid);
 }
 
@@ -161,7 +160,7 @@ void Evolve(Field *self) {
 	}
 }
 
-void Print(Field *self) {	
+void Print(Field *self) {
 	for (int i = 0; i < self->sizey; i++) {
 		for (int j = 0; j < self->sizex; j++) {
 			if (self->grid[i][j] == true) {

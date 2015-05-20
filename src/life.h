@@ -38,6 +38,12 @@ typedef struct field {
 	void (*SetGrid)(struct field *, char *grid);
 } Field;
 
+typedef struct seedfile {
+	FILE *fp;
+	Field seed;
+} SeedFile;
+
+
 void ClearScreen(void);
 
 /* initialize a field for Conway's GoL */
