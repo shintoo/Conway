@@ -9,7 +9,7 @@
 
 #include "life.h"
 
-#define COLORSPEED 12
+#define COLORSPEED 14
 
 int main(int argc, char **argv ) {
 	if (argc < 4) {

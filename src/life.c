@@ -151,8 +151,8 @@ void Evolve(Field *self) {
 	Field *temp = self->Clone(self);
 	self->alive = 0;
 
-	for (int i = 1; i < self->sizey - 1; i++) {
-		for (int j = 1; j < self->sizex - 1; j++) {
+	for (int i = 0; i < self->sizey; i++) {
+		for (int j = 0; j < self->sizex; j++) {
 			self->grid[i][j] = WillLive(temp, j, i);
 			if (self->grid[i][j] == true) {
 				self->alive++;
@@ -205,7 +205,7 @@ void SetGrid(Field *self, char *rows) {
 		}
 	}
 }
-
+/*
 int GetNeighbors(Field *self, int x, int y) {
 		int ct = 0;
 
@@ -238,18 +238,59 @@ int GetNeighbors(Field *self, int x, int y) {
 
 		return ct;
 }
+*/
+
+int GetNeighbors(Field *self, int x, int y) {
+		int ct = 0;
+
+		if (getcell(self, x - 1, y) == true) {
+			ct++; 
+		} 
+		if (getcell(self, x + 1, y) == true) {
+			ct++;                                       
+		}
+		if (getcell(self, x, y + 1) == true) {
+			ct++;
+		}
+		
+		if (getcell(self, x, y - 1) == true) {
+			ct++;
+		}
+
+		if (getcell(self, x + 1, y - 1) == true) {
+			ct++;
+		}
+		if (getcell(self, x - 1, y + 1) == true) {
+			ct++;
+		}
+		if (getcell(self, x - 1, y - 1) == true) {
+			ct++;
+		}
+		if (getcell(self, x + 1, y + 1) == true) {
+			ct++;
+		}
+
+		return ct;
+}
+
 
 bool getcell(Field *self, int x, int y) {
 	x = (x % self->sizex) + self->sizex*(x % self->sizex < 0);
 	y = (y % self->sizey) + self->sizey*(y % self->sizey < 0);
-	if (x < 0) {
+/*	if (x > self->sizex) {
+		x = 0 + x - self->sizex;
+	}
+	if (y > self->sizey) {
+		y = 0 + y - self->sizey;
+	}
+*/	if (x < 0) {
 		x = x + self->sizex;
 	}
 	if (y < 0) {
 		y = y + self->sizey;
 	}
 
-	return self->grid[x][y];
+	return self->grid[y][x];
 }
 
 uint64_t xorshift(void) {
