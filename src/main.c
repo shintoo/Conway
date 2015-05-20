@@ -67,7 +67,7 @@ int main(int argc, char **argv ) {
 
 #ifdef LOG
 	FILE *logfile = fopen("log.txt", "w");
-	fprintf(logfile, " Game\tGen\n");
+	fprintf(logfile, " Game\t Gen\n");
 	unsigned long prevliv;
 	unsigned long peak = 0;
 	unsigned int samecount = 0;
@@ -124,7 +124,7 @@ while (iterations < LOG) {
 
 #ifndef BACKGROUND
 #ifdef LOG
-		printf("\n\nGame: %u\n", iterations);
+		printf("\n\nGame: 24\n");// iterations);
 #endif
 		printf("Generation:\t%lu\nLive: %lu\t%.3g%%\n",
 		       i, Conway->LiveCount(Conway),

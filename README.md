@@ -14,6 +14,14 @@ Randomly generated:
 ```
 If generations is 0, it will run until killed externally.
 
+####From a text file
+![galaxy image][img/galaxy.png]
+
+####Using a log
+![log image][img/log.png]
+
+###Notes
+
 In the source, there are some important definitions:
 ```C                      
 #define COLORSPEED 14  /* The higher this is, the slower the color changes.
