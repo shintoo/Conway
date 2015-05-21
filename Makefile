@@ -1,8 +1,7 @@
-CC=gcc
-CFLAGS= -std=gnu11
+CFLAGS = -std=c11 -D_GNU_SOURCE
+LDFLAGS = -lm
 SRC= src/main.c src/life.c
 HDR = src/life.h
-LIB= -lm
 
 all: $(SRC) $(HDR)
-	$(CC) -o Conway $(SRC) $(CFLAGS) $(LIB)
+	$(CC) -o Conway $(SRC) $(CFLAGS) $(LDFLAGS)
