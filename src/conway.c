@@ -167,7 +167,8 @@ void Print(Field *self) {
 				printf("██");
 			}
 			else if (self->grid[i][j] == false) {
-				printf("░░");
+				printf("  ");
+				//printf("░░");
 			}
 		}
 		putchar('\n');
