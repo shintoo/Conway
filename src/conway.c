@@ -1,4 +1,4 @@
-#include "life.h"
+#include "conway.h"
 #include <time.h>
 #include <stdio.h>
 #include <stdbool.h>

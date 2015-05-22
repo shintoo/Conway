@@ -6,7 +6,8 @@
 #include <math.h>
 #include <limits.h>
 #include <unistd.h>
-#include "life.h"
+
+#include "conway.h"
                       
 #define COLORSPEED 14  /* The higher this is, the slower the color changes.
                         * Comment it out to remove color.
