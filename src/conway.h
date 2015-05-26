@@ -58,6 +58,8 @@ unsigned long Total(Field *self);
 
 Field * Clone(Field *self);
 
+void DeleteField(Field *self);
+
 void SetSize(struct field *, int, int);
 
 void SetGrid(struct field *, char *grid);

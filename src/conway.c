@@ -33,6 +33,14 @@ Field * NewField(void) {
 	return new;
 }
 
+void DeleteField(Field *self) {
+	for (int i = 0; i < self->sizey; i++) {
+		free(self->grid[i]);
+	}
+	free(self->grid);
+	free(self);
+}
+
 void ReadFile(Field *self, FILE *fp) {
 	char ch;
 	char grid[MAXX * MAXY + MAXY];
@@ -118,7 +126,6 @@ Field * Clone(Field *self) {
 			clone->grid[i][j] = self->grid[i][j];
 		}
 	}
-
 	return clone;
 }
 
@@ -158,6 +165,7 @@ void Evolve(Field *self) {
 			}
 		}
 	}
+	DeleteField(temp);
 }
 
 void Print(Field *self) {

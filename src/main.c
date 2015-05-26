@@ -13,29 +13,29 @@
                         * Comment it out to remove color.
                         */
 
-#define LOG 200         /* Stops the game when the field reaches a static
-                        * state, writes how many generations it took to reach
+//#define LOG 200         /* Stops the game when the field reaches a static
+/*                        * state, writes how many generations it took to reach
                         * in a logfile called log.txt. The amount of games
                         * played and logged is specfied by this constant.
                         * Comment out to neithor log nor stop the inital game.
                         */
-
-#define LOGACCURACY 40 /* The higher this is, the more generations are tested
-                        * to determine a static field. Slower, but more
+#ifdef LOG
+#define LOGACCURACY 40 /* The higher this is, the more generations are tested */
+#endif                 /* to determine a static field. Slower, but more
                         * accurate. There is always the possibility of
                         * a glider spawning with nothing but one 2x2 block
                         * on the field. The larger your field, the higher
                         * LOGACCURACY recommended.
                         */
-
-#define LOGFEATHER 4   /* Blinkers may cause a game to never stop. This
-                        * constant allows for changes in life within a
+#ifdef LOG
+#define LOGFEATHER 4   /* Blinkers may cause a game to never stop. This */
+#endif                 /* constant allows for changes in life within a
                         * certain range while still considering the
                         * field to be static.
                         */
 
-//#define BACKGROUND     /* When active, this prevents the games from being
-/*                        * printed, so the program only runs and logs the
+#define BACKGROUND     /* When active, this prevents the games from being
+                        * printed, so the program only runs and logs the
                         * results. Much faster than printing them.
                         */
 
@@ -65,18 +65,15 @@ int main(int argc, char **argv ) {
 	bool random;
 	FILE *in;
 	unsigned int iterations = 0;
-
+	
+	Field *Conway = NewField();
 #ifdef LOG
 	FILE *logfile = fopen("log.txt", "w");
 	fprintf(logfile, " Game\t Gen\n");
 	unsigned long prevliv;
 	unsigned long peak = 0;
 	unsigned int samecount = 0;
-#endif
 
-	Field *Conway = NewField();
-
-#ifdef LOG
 while (iterations < LOG) {
 #endif
 
@@ -85,6 +82,7 @@ while (iterations < LOG) {
 	}
 	else if ((in = fopen(argv[3], "r")) != NULL) {
 		Conway->Read(Conway, in);
+		fclose(in);
 	}
 	else {
 		fprintf(stderr, "%s not found.\n", argv[3]);
@@ -160,6 +158,9 @@ while (iterations < LOG) {
 }
 	fclose(logfile);
 #endif
+
+	DeleteField(Conway);
+
 	return 0;
 }
 
