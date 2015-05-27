@@ -4,7 +4,11 @@ Implementation of the popular hit, "Conway's Game of Life"!
 
 ##Installation
 
-Just run `make`.
+```
+git clone https://github.com/shintoo/Conway.git  
+cd Conway  
+make  
+```
 
 ##Usage
 From a text file: 
