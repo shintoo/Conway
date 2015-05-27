@@ -2,6 +2,9 @@
 
 Implementation of the popular hit, "Conway's Game of Life"!
 
+##Installation
+
+Just run `make`.
 
 ##Usage
 From a text file: 
