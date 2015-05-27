@@ -34,8 +34,8 @@
                         * field to be static.
                         */
 
-#define BACKGROUND     /* When active, this prevents the games from being
-                        * printed, so the program only runs and logs the
+//#define BACKGROUND     /* When active, this prevents the games from being
+/*                        * printed, so the program only runs and logs the
                         * results. Much faster than printing them.
                         */
 
